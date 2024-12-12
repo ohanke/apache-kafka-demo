@@ -1,4 +1,4 @@
-package com.oscarhanke.library_event_producer;
+package com.oscarhanke.demo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
