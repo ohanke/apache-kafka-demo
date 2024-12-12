@@ -1,6 +1,8 @@
 package com.oscarhanke.demo.controller;
 
 import com.oscarhanke.demo.model.LibraryEvent;
+import com.oscarhanke.demo.service.messaging.producer.LibraryEventsProducer;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,7 +15,10 @@ import static org.springframework.http.HttpStatus.CREATED;
 @Slf4j
 @RestController
 @RequestMapping("/v1/library-event")
+@RequiredArgsConstructor
 public class LibraryEventsController {
+
+    private final LibraryEventsProducer libraryEventsProducer;
 
     @PostMapping
     public ResponseEntity<LibraryEvent> postLibraryEvent(
@@ -21,6 +26,7 @@ public class LibraryEventsController {
     ) {
         log.info("Received POST request with body: {}", libraryEvent.toString());
         // // TODO: invoke kafka producer
+        libraryEventsProducer.send(libraryEvent);
 
         return ResponseEntity.status(CREATED).body(libraryEvent);
     }
