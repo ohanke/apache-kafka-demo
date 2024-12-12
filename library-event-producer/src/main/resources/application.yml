@@ -1,3 +1,5 @@
 spring:
   application:
     name: library-event-producer
+  profiles:
+    active: local
