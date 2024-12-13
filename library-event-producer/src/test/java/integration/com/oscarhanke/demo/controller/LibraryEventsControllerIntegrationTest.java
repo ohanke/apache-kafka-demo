@@ -69,7 +69,7 @@ class LibraryEventsControllerIntegrationTest {
     void postLibraryEvent() {
         // Given
         var expectedRecordCount = 1;
-        var libraryEvent = TestUtil.libraryEventRecord();
+        var libraryEvent = TestUtil.newLibraryEventRecordWithLibraryEventId();
         var httpHeaders = new HttpHeaders(MultiValueMap.fromSingleValue(Map.of(HEADER_CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)));
         var httpEntity = new HttpEntity<>(libraryEvent, httpHeaders);
 
