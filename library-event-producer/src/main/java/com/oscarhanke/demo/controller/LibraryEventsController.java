@@ -25,8 +25,8 @@ public class LibraryEventsController {
             @RequestBody LibraryEvent libraryEvent
     ) {
         log.info("Received POST request with body: {}", libraryEvent.toString());
-        // // TODO: invoke kafka producer
-        libraryEventsProducer.send(libraryEvent);
+
+        libraryEventsProducer.sendBlocking(libraryEvent);
 
         return ResponseEntity.status(CREATED).body(libraryEvent);
     }
