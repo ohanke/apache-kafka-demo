@@ -2,6 +2,7 @@ package com.oscarhanke.demo.controller;
 
 import com.oscarhanke.demo.model.LibraryEvent;
 import com.oscarhanke.demo.service.messaging.producer.LibraryEventsProducer;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -22,11 +23,11 @@ public class LibraryEventsController {
 
     @PostMapping
     public ResponseEntity<LibraryEvent> postLibraryEvent(
-            @RequestBody LibraryEvent libraryEvent
+            @RequestBody @Valid LibraryEvent libraryEvent
     ) {
         log.info("Received POST request with body: {}", libraryEvent.toString());
-        // // TODO: invoke kafka producer
-        libraryEventsProducer.send(libraryEvent);
+
+        libraryEventsProducer.sendBlocking(libraryEvent);
 
         return ResponseEntity.status(CREATED).body(libraryEvent);
     }
