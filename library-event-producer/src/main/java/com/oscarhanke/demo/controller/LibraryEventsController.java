@@ -35,7 +35,7 @@ public class LibraryEventsController {
     ) {
         log.info("Received PUT request with body: {}", libraryEvent.toString());
 
-        libraryEventsProducer.sendBlocking(libraryEvent);
+        libraryEventsProducer.sendAsProducerRecord(libraryEvent);
 
         return ResponseEntity.status(CREATED).body(libraryEvent);
     }
