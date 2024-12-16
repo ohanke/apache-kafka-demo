@@ -6,10 +6,14 @@ import com.oscarhanke.demo.config.properties.TopicProperties;
 import com.oscarhanke.demo.model.LibraryEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.kafka.clients.producer.ProducerRecord;
+import org.apache.kafka.common.header.Header;
+import org.apache.kafka.common.header.internals.RecordHeader;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 import static java.util.Objects.isNull;
@@ -57,6 +61,23 @@ public class LibraryEventsProducer {
 
                     handleSuccess(key, data, result);
                 });
+    }
+
+    public CompletableFuture<SendResult<Integer, String>> sendAsProducerRecord(LibraryEvent event) {
+        Integer key = event.libraryEventId();
+        String data = toJsonString(event);
+        String topic = topicProperties.name();
+
+        ProducerRecord<Integer, String> producerRecord = buildProducerRecord(key, data, topic);
+
+        return kafkaTemplate.send(producerRecord);
+    }
+
+
+    private ProducerRecord<Integer, String> buildProducerRecord(Integer key, String value, String topic) {
+        List<Header> recordHeaders = List.of(new RecordHeader("event-source-header-name", "event-source-header-value".getBytes()));
+
+        return new ProducerRecord<>(topic, null, key, value, recordHeaders);
     }
 
     private void handleError(Integer key, String data, Throwable throwable) {

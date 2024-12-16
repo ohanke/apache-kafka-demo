@@ -16,7 +16,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(controllers = LibraryEventsController.class)
-public class LibraryEventsControllerUnitTest {
+public class LibraryEventsControllerUnitTest { //TODO failing as producer
 
     private static final String LIBRARY_EVENT_ENDPOINT = "/v1/library-event";
 
