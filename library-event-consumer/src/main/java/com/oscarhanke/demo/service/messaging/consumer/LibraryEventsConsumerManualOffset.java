@@ -1,4 +1,4 @@
-package com.oscarhanke.demo.services.messaging.consumer;
+package com.oscarhanke.demo.service.messaging.consumer;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
